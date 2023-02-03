@@ -4,4 +4,4 @@ import { HealthModule } from './modules/health/health.module';
 @Module({
   imports: [HealthModule],
 })
-export class AppModule { }
+export class AppModule {}

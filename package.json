@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "commit": "npx git-cz",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -27,7 +28,6 @@
     "@nestjs/platform-express": "^8.2.4",
     "@nestjs/swagger": "^5.1.5",
     "@nestjs/terminus": "^8.0.3",
-    "husky": "^7.0.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.5",
@@ -47,6 +47,7 @@
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "husky": "^8.0.3",
     "jest": "^26.6.3",
     "lint-staged": "^12.1.4",
     "prettier": "^2.5.1",
@@ -82,7 +83,10 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-lean-changelog"
+      "path": "cz-conventional-changelog"
+    },
+    "commitlint": {
+      "extends": ["@commitlint/config-conventional"]
     }
   }
 }
