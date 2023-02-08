@@ -4,6 +4,20 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UsersRepository {
+  public async getUsers(): Promise<any> {
+    const prisma = new PrismaClient();
+
+    try {
+      await prisma.$connect();
+
+      const responseUser = prisma.users.findMany();
+
+      return responseUser;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   public async createUser(user: CreateUserDTO): Promise<any> {
     const prisma = new PrismaClient();
 
