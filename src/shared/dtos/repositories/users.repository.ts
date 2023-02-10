@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import { CreateUserDTO } from '../createuser.dto';
+import { PrismaClient, prisma, users } from '@prisma/client';
+import { CreateUserDTO, LoginUserRequestDTO } from '../users.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -11,6 +11,24 @@ export class UsersRepository {
       await prisma.$connect();
 
       const responseUser = prisma.users.findMany();
+
+      return responseUser;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  public async getUser(user: LoginUserRequestDTO): Promise<users> {
+    const prisma = new PrismaClient();
+
+    try {
+      await prisma.$connect();
+
+      const responseUser = prisma.users.findFirst({
+        where: {
+          username: user.username,
+        },
+      });
 
       return responseUser;
     } catch (error) {

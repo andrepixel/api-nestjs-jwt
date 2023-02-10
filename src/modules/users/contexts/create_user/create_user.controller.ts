@@ -7,7 +7,7 @@ import {
   Response,
 } from '@nestjs/common';
 import { CreateUserService } from './create_user.service';
-import { CreateUserDTO } from 'shared/dtos/createuser.dto';
+import { CreateUserDTO } from 'shared/dtos/users.dto';
 
 @Controller('users')
 export class CreateUserController {
