@@ -33,6 +33,8 @@ export class UsersRepository {
       return responseUser;
     } catch (error) {
       throw new Error(error);
+    } finally {
+      await prisma.$disconnect();
     }
   }
 

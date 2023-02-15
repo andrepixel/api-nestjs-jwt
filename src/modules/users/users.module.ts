@@ -18,4 +18,8 @@ import { LoginService } from './contexts/login/login.service';
     LoginService,
   ],
 })
-export class UsersModule {}
+export class UsersModule {
+  static forRoot(arg0: { envFilePath: string; }): (string | symbol | Function | import("@nestjs/common").DynamicModule | Promise<import("@nestjs/common").DynamicModule> | import("@nestjs/common").Provider | import("@nestjs/common").ForwardReference<...> | import("@nestjs/common").Abstract<...>)[] {
+    throw new Error('Method not implemented.');
+  }
+}
