@@ -33,7 +33,7 @@ export class LoginService {
         throw new Error('user or password is not valid');
       }
 
-      const token = await jwt.sign(userDatabase, env.application.key_jwt, {
+      const token = jwt.sign(userDatabase, env.application.KEY_JWT, {
         subject: userDatabase.id,
         expiresIn: '20s',
       });
