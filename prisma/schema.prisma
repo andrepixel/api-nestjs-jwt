@@ -10,9 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id       String @id @default(uuid())
-  name     String
-  username String @unique
-  password String
+model Users {
+  id            String         @id @default(uuid())
+  name          String
+  username      String         @unique
+  password      String
+  refresh_token Refresh_Token?
+	@@map("users")
+}
+
+model Refresh_Token {
+  id        String @id @default(uuid())
+  expiresIn Int
+  userID    String @unique
+  user      Users  @relation(fields: [userID], references: [id])
+	@@map("refresh_token")
 }
