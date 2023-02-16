@@ -1,10 +1,10 @@
-import { PrismaClient, prisma, users } from '@prisma/client';
+import { PrismaClient, Users } from '@prisma/client';
 import { CreateUserDTO, LoginUserRequestDTO } from '../users.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UsersRepository {
-  public async getUsers(): Promise<any> {
+  public async getUsers(): Promise<Users[]> {
     const prisma = new PrismaClient();
 
     try {
@@ -15,10 +15,12 @@ export class UsersRepository {
       return responseUser;
     } catch (error) {
       throw new Error(error);
+    } finally {
+      await prisma.$disconnect();
     }
   }
 
-  public async getUser(user: LoginUserRequestDTO): Promise<users> {
+  public async getUser(user: LoginUserRequestDTO): Promise<Users> {
     const prisma = new PrismaClient();
 
     try {
@@ -38,7 +40,7 @@ export class UsersRepository {
     }
   }
 
-  public async createUser(user: CreateUserDTO): Promise<any> {
+  public async createUser(user: CreateUserDTO): Promise<Users> {
     const prisma = new PrismaClient();
 
     try {
@@ -52,9 +54,15 @@ export class UsersRepository {
         },
       });
 
+      if (responseUser === null) {
+        throw new Error('Account already exists');
+      }
+
       return responseUser;
     } catch (error) {
-      throw new Error(error);
+      throw error;
+    } finally {
+      await prisma.$disconnect();
     }
   }
 }
