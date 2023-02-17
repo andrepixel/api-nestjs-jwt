@@ -3,8 +3,7 @@ import { UsersRepository } from '../../../../shared/dtos/repositories/users.repo
 import { LoginUserRequestDTO } from 'shared/dtos/users.dto';
 import { LoginUserResponseDTO } from '../../../../shared/dtos/users.dto';
 import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
-import env from '@config/env';
+import { GenerateRefreshTokenProvider } from '../../../../shared/providers/generate_refresh_token.provider';
 
 @Injectable()
 export class LoginService {
@@ -33,17 +32,18 @@ export class LoginService {
         throw new Error('user or password is not valid');
       }
 
-      const token = jwt.sign(userDatabase, env.application.KEY_JWT, {
-        subject: userDatabase.id,
-        expiresIn: '20s',
-      });
+      const generateToken = new GenerateRefreshTokenProvider();
+      const newToken = await generateToken.execute(userDatabase.id);
+
+      const refreshToken = await this.repository.refresh_token(userDatabase.id);
 
       const responseUser = new LoginUserResponseDTO({
-        id: userDatabase.id,
-        name: userDatabase.name,
-        username: userDatabase.username,
-        password: userDatabase.password,
-        token: token,
+        token: newToken,
+        refresh_token: {
+          id: refreshToken.id,
+          expiresIn: refreshToken.expiresIn,
+          userID: refreshToken.userID,
+        },
       });
 
       return responseUser;

@@ -10,29 +10,53 @@ export class LoginUserRequestDTO {
 }
 
 export class LoginUserResponseDTO {
-  id: string;
-  name: string;
-  username: string;
-  password: string;
   token: string;
+  refresh_token?: RefreshTokenDTO;
+
+  constructor({
+    token,
+    refresh_token,
+  }: {
+    token: string;
+    refresh_token?: RefreshTokenDTO;
+  }) {
+    this.token = token;
+    this.refresh_token = refresh_token;
+  }
+}
+
+export class RefreshTokenDTO {
+  id: string;
+  expiresIn: number;
+  userID: string;
 
   constructor({
     id,
-    name,
-    username,
-    password,
-    token,
+    expiresIn,
+    userID,
   }: {
     id: string;
-    name: string;
-    username: string;
-    password: string;
-    token: string;
+    expiresIn: number;
+    userID: string;
   }) {
     this.id = id;
-    this.name = name;
-    this.username = username;
-    this.password = password;
-    this.token = token;
+    this.expiresIn = expiresIn;
+    this.userID = userID;
+  }
+}
+
+export class RefreshTokenRequestBodyDTO {
+  refresh_token: string;
+
+  constructor({ refresh_token }: { refresh_token: string }) {
+    this.refresh_token = refresh_token;
+  }
+}
+
+export class RefreshTokenResponseBodyDTO {
+  refresh_token: string;
+
+  constructor({ refresh_token }: { refresh_token: string }) {
+    this.refresh_token = refresh_token;
   }
 }
