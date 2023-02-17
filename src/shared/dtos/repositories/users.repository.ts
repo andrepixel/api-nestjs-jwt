@@ -1,6 +1,7 @@
-import { PrismaClient, Users } from '@prisma/client';
+import { PrismaClient, Refresh_Token, Users } from '@prisma/client';
 import { CreateUserDTO, LoginUserRequestDTO } from '../users.dto';
 import { Injectable } from '@nestjs/common';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class UsersRepository {
@@ -59,6 +60,41 @@ export class UsersRepository {
       }
 
       return responseUser;
+    } catch (error) {
+      throw error;
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
+
+  async refresh_token(userID: string): Promise<Refresh_Token> {
+    const prisma = new PrismaClient();
+
+    try {
+      const expiresIn = dayjs().add(1, 'second').unix();
+
+      const isUserIdExists = await prisma.refresh_Token.findFirst({
+        where: {
+          userID: userID,
+        },
+      });
+
+      if (isUserIdExists) {
+        await prisma.refresh_Token.delete({
+          where: {
+            userID: userID,
+          },
+        });
+      }
+
+      const refreshToken = await prisma.refresh_Token.create({
+        data: {
+          userID: userID,
+          expiresIn: expiresIn,
+        },
+      });
+
+      return refreshToken;
     } catch (error) {
       throw error;
     } finally {
