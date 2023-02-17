@@ -2,6 +2,7 @@ import { PrismaClient, Refresh_Token, Users } from '@prisma/client';
 import { CreateUserDTO, LoginUserRequestDTO } from '../users.dto';
 import { Injectable } from '@nestjs/common';
 import * as dayjs from 'dayjs';
+import { prisma } from '../../../../prisma';
 
 @Injectable()
 export class UsersRepository {
@@ -68,8 +69,6 @@ export class UsersRepository {
   }
 
   async refresh_token(userID: string): Promise<Refresh_Token> {
-    const prisma = new PrismaClient();
-
     try {
       const expiresIn = dayjs().add(1, 'second').unix();
 

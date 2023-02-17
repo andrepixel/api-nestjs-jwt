@@ -51,7 +51,7 @@ export class GenerateRefreshTokenRepository {
     } catch (error) {
       throw error;
     } finally {
-      await prisma.$disconnect;
+      await prisma.$disconnect();
     }
   }
 }
