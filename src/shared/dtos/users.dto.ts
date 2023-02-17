@@ -54,9 +54,9 @@ export class RefreshTokenRequestBodyDTO {
 }
 
 export class RefreshTokenResponseBodyDTO {
-  refresh_token: string;
+  responseToken: LoginUserResponseDTO;
 
-  constructor({ refresh_token }: { refresh_token: string }) {
-    this.refresh_token = refresh_token;
+  constructor({ responseToken }: { responseToken: LoginUserResponseDTO }) {
+    this.responseToken = responseToken;
   }
 }

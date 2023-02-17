@@ -17,7 +17,7 @@ export class RefreshTokenService {
     );
 
     const responseRefreshToken = new RefreshTokenResponseBodyDTO({
-      refresh_token: refreshToken,
+      responseToken: refreshToken,
     });
 
     return responseRefreshToken;
